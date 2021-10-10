@@ -44,6 +44,7 @@ export default {
         // 2.请求接口，删除线上数据
         // 无论是否登录都把数据存储到本地
         // 如果已登录，则删除线上的历史数据
+        // 接口有问题
         // setItem('search-histories', this.searchHistories);
         return;
       }

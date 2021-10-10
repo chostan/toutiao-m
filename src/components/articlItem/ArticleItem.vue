@@ -28,7 +28,7 @@
       </div>
       <div class="label-wrap">
         <span>{{ article.aut_name }}</span>
-        <span>{{ article.comm_count }}</span>
+        <span>{{ article.comm_count }}评论</span>
         <span>{{ article.pubdate | relativeTime }}</span>
       </div>
     </div>
@@ -63,6 +63,11 @@ export default {
   .title {
     font-size: 16px;
     color: #3a3a3a;
+  }
+  .van-cell__title {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
   /deep/ .van-cell__value {
     flex: unset;

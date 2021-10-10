@@ -60,6 +60,8 @@ export default {
       } catch (err) {
         if (err && err.response && err.response.status === 409) {
           this.$toast.fail('昵称已存在');
+        } else {
+          this.$toast.fail('操作失败，请稍后重试');
         }
       }
     },

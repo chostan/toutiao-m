@@ -108,6 +108,7 @@ export default {
       this.searchHistories.unshift(this.searchText);
 
       // 如果用户已登录，则把搜索历史记录存储到线上
+      // 只要我们调用搜索结果的接口，后端会给我们自动存储用户的搜索历史记录
       // 如果没有登录，则把搜索历史记录存储到本地
       // setItem('search-histories', this.searchHistories);
 

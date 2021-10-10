@@ -7,8 +7,7 @@
       right-text="确认"
       @click-left="$emit('close')"
       @click-right="onConfirm"
-    >
-    </van-nav-bar>
+    ></van-nav-bar>
   </div>
 </template>
 
@@ -70,7 +69,7 @@ export default {
       const res = await updateUserPhoto({
         photo: fd,
       });
-      console.log(res);
+      // console.log(res);
 
       // 更新父组件中的用户头像
       this.$emit('update-photo', window.URL.createObjectURL(file));

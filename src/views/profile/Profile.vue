@@ -118,6 +118,8 @@ export default {
         .then(() => {
           // on confirm
           this.$store.commit('setUser', null);
+          // 清除TabBar的缓存,让它重新渲染
+          // this.$store.commit('removeCachePage', 'TabBar');
         })
         .catch(() => {
           // on cancel

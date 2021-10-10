@@ -1,12 +1,7 @@
 <template>
   <div class="login-container">
     <!-- 导航栏 -->
-    <van-nav-bar
-      class="app-nav-bar"
-      title="登录"
-      left-arrow
-      @click-left="$router.back()"
-    />
+    <van-nav-bar class="app-nav-bar" title="登录" left-arrow @click-left="$router.back()" />
     <!-- 登录表单 -->
     <van-form
       :show-error="false"
@@ -50,13 +45,11 @@
             round
             :loading="isSendSmsLoading"
             @click.prevent="onSendSms"
-          >
-            发送验证码
-          </van-button>
+          >发送验证码</van-button>
         </template>
       </van-field>
       <div class="login-btn-wrap">
-        <van-button class="login-btn" type="info" block> 登录 </van-button>
+        <van-button class="login-btn" type="info" block>登录</van-button>
       </div>
     </van-form>
     <!-- /登录表单 -->
@@ -78,7 +71,7 @@ export default {
   data() {
     return {
       user: {
-        mobile: '17090086870',
+        mobile: '13922222222',
         code: '246810',
       },
       formRules: {
@@ -117,7 +110,7 @@ export default {
 
         // 登录成功，跳转回原来的页面
         // this.$router.back();
-        this.$router.push(this.$route.query.redirect || '/');
+        this.$router.replace(this.$route.query.redirect || '/');
       } catch (err) {
         // console.log(err);
         // console.log('登录失败!', err);

@@ -8,7 +8,7 @@
       @load="onLoad"
     >
       <comment-item
-        v-for="(comment, index) in list"
+        v-for="(comment, index) in commentList"
         :key="index"
         :comment="comment"
         @reply-click="$emit('reply-click', $event)"
@@ -26,6 +26,7 @@
 // articleId为134633有评论
 import { getComments } from 'network/comment';
 import CommentItem from './CommentItem';
+import { getCurrentUser } from '@/network/user';
 
 export default {
   name: 'CommentList',
@@ -53,6 +54,7 @@ export default {
   data() {
     return {
       // list: [],
+      commentList: [],
       loading: false,
       finished: false,
       // 获取下一页数据的页码
@@ -60,6 +62,28 @@ export default {
       // 每页大小
       limit: 10,
     };
+  },
+  watch: {
+    list: {
+      isDeep: true,
+      async handler() {
+        const { idObj, content } = this.list[0];
+        const { data } = await getCurrentUser();
+        let newComment = {
+          com_id: idObj.com_id,
+          aut_id: data.data.id,
+          aut_name: data.data.name,
+          aut_photo: data.data.photo,
+          like_count: 0,
+          reply_count: 0,
+          pubdate: Date.now(),
+          content: content,
+          is_top: 0,
+          is_liking: false,
+        };
+        this.commentList.unshift(newComment);
+      },
+    },
   },
   created() {},
   methods: {
@@ -76,10 +100,12 @@ export default {
         limit: this.limit,
       });
       // console.log(data);
+      // console.log('commentList', data);
       this.$emit('update-total-count', data.data.total_count);
       // 2.把数据放到列表中
       const { results } = data.data;
-      this.list.push(...results);
+      // this.list.push(...results);
+      this.commentList.push(...results);
 
       // 3.将本次的loading关闭
       this.loading = false;

@@ -1,7 +1,12 @@
 <template>
   <div class="login-container">
     <!-- 导航栏 -->
-    <van-nav-bar class="app-nav-bar" title="登录" left-arrow @click-left="$router.back()" />
+    <van-nav-bar
+      class="app-nav-bar"
+      title="登录"
+      left-arrow
+      @click-left="$router.back()"
+    />
     <!-- 登录表单 -->
     <van-form
       :show-error="false"
@@ -16,6 +21,7 @@
         icon-prefix="toutiao"
         left-icon="shouji"
         center
+        clearable
         placeholder="请输入手机号"
         name="mobile"
         :rules="formRules.mobile"
@@ -45,7 +51,8 @@
             round
             :loading="isSendSmsLoading"
             @click.prevent="onSendSms"
-          >发送验证码</van-button>
+            >发送验证码</van-button
+          >
         </template>
       </van-field>
       <div class="login-btn-wrap">
@@ -57,7 +64,7 @@
 </template>
 
 <script>
-/* 
+/*
 测试账号
 13911111111 / 246810
 13611111111 / 246810
@@ -71,7 +78,7 @@ export default {
   data() {
     return {
       user: {
-        mobile: '13922222222',
+        mobile: '13911111111',
         code: '246810',
       },
       formRules: {

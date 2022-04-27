@@ -60,7 +60,8 @@ export default {
         art_id: this.articleId ? this.articleId.toString() : null,
       });
       // 处理相应结果
-      this.$emit('post-success', data.data.new_obj);
+      // console.log('发布结果', data);
+      this.$emit('post-success', {idObj:data.data, content:this.message});
 
       this.$toast.success('发布成功');
       // 发布成功，清空文本框内容

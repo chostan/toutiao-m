@@ -102,6 +102,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import './github-markdown.css';
 import {
   getArticleById,
@@ -151,6 +152,9 @@ export default {
       replyComment: {},
     };
   },
+  computed: {
+    ...mapState(['user']),
+  },
   created() {
     this.loadArticle();
   },
@@ -184,44 +188,71 @@ export default {
     },
     async onFollow() {
       this.isFollowLoading = true;
-      if (this.article.is_followed) {
-        // 已关注，取消关注
-        const res = await deleteFollow(this.article.aut_id);
-        // console.log('取消关注', res);
-        // this.article.aut_id = false;
+      if (this.user) {
+        if (this.article.is_followed) {
+          // 已关注，取消关注
+          try {
+            const res = await deleteFollow(this.article.aut_id);
+            this.article.is_followed = !this.article.is_followed;
+          } catch (error) {}
+          // console.log('取消关注', res);
+          // this.article.aut_id = false;
+        } else {
+          // 未关注，添加关注
+          try {
+            const res = await addFollow(this.article.aut_id);
+            this.article.is_followed = !this.article.is_followed;
+          } catch (error) {
+            if (
+              error.response &&
+              error.response.status &&
+              error.response.status == 410
+            ) {
+              this.$toast({
+                message: '不能关注自己',
+              });
+            }
+          }
+          // console.log('添加关注', res);
+          // this.article.aut_id = true;
+        }
       } else {
-        // 未关注，添加关注
-        const res = await addFollow(this.article.aut_id);
-        // console.log('添加关注', res);
-        // this.article.aut_id = true;
+        this.$toast({
+          message: '请登录后进行操作',
+        });
       }
-      this.article.is_followed = !this.article.is_followed;
       this.isFollowLoading = false;
     },
     async onCollect() {
-      // this.isCollectLoading = true;
+      this.isCollectLoading = true;
       this.$toast.loading({
         message: '操作中',
         // 禁止背景点击
         forbidClick: true,
       });
-      if (this.article.is_collected) {
-        // 已收藏，取消收藏
-        const res = await deleteCollect(this.articleId);
-        // console.log('取消收藏', res);
-        if (res && res.status && res.status === 204) {
-          this.$toast.success('取消收藏成功');
+      if (this.user) {
+        if (this.article.is_collected) {
+          // 已收藏，取消收藏
+          const res = await deleteCollect(this.articleId);
+          // console.log('取消收藏', res);
+          if (res && res.status && res.status === 204) {
+            this.$toast.success('取消收藏成功');
+          }
+        } else {
+          // 未收藏，添加收藏
+          const res = await addCollect(this.articleId);
+          // console.log('添加收藏', res);
+          if (res && res.status && res.status === 201) {
+            this.$toast.success('收藏成功');
+          }
         }
+        this.article.is_collected = !this.article.is_collected;
       } else {
-        // 未收藏，添加收藏
-        const res = await addCollect(this.articleId);
-        // console.log('添加收藏', res);
-        if (res && res.status && res.status === 201) {
-          this.$toast.success('收藏成功');
-        }
+        this.$toast({
+          message: '请登录后进行操作',
+        });
       }
-      this.article.is_collected = !this.article.is_collected;
-      // this.isCollectLoading = false;
+      this.isCollectLoading = false;
     },
     async onLike() {
       this.isCollectLoading = true;
@@ -230,31 +261,38 @@ export default {
         // 禁止背景点击
         forbidClick: true,
       });
-      if (this.article.attitude === 1) {
-        // 已点赞，取消点赞
-        const res = await deleteLike(this.articleId);
-        // console.log('取消点赞', res);
-        this.article.attitude = -1;
-        if (res && res.status && res.status === 204) {
-          this.$toast.success(
-            `${this.article.attitude === 1 ? '' : '取消'}点赞成功`
-          );
+      if (this.user) {
+        if (this.article.attitude === 1) {
+          // 已点赞，取消点赞
+          const res = await deleteLike(this.articleId);
+          // console.log('取消点赞', res);
+          this.article.attitude = -1;
+          if (res && res.status && res.status === 204) {
+            this.$toast.success(
+              `${this.article.attitude === 1 ? '' : '取消'}点赞成功`
+            );
+          }
+        } else {
+          // 未点赞，添加点赞
+          const res = await addLike(this.articleId);
+          // console.log('添加点赞', res);
+          this.article.attitude = 1;
+          if (res && res.status && res.status === 201) {
+            this.$toast.success(
+              `${this.article.attitude === 1 ? '' : '取消'}点赞成功`
+            );
+          }
         }
       } else {
-        // 未点赞，添加点赞
-        const res = await addLike(this.articleId);
-        // console.log('添加点赞', res);
-        this.article.attitude = 1;
-        if (res && res.status && res.status === 201) {
-          this.$toast.success(
-            `${this.article.attitude === 1 ? '' : '取消'}点赞成功`
-          );
-        }
+        this.$toast({
+          message: '请登录后进行操作',
+        });
       }
-      // this.isCollectLoading = false;
+      this.isCollectLoading = false;
     },
     onPostSuccess(comment) {
       // console.log(comment);
+      // console.log('onPostSuccess', comment);
       // 把发布成功的评论数据对象放到评论列表顶部
       this.commentList.unshift(comment);
       // 更新评论的总数量

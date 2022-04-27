@@ -1,122 +1,141 @@
 <template>
-  <div class="user-chat">
-    <!-- 导航栏 -->
+  <div class="userchat">
     <van-nav-bar
       class="app-nav-bar"
-      title="小智同学"
+      title="人工智能"
       left-arrow
       @click-left="$router.back()"
     />
-    <!-- /导航栏 -->
 
-    <!-- 消息列表 -->
-    <van-cell-group class="message-list" ref="message-list">
+    <!-- 聊天区 -->
+    <van-cell-group class="message-list">
+      <div class="tip">
+        <span class="time">{{ Date.now() | dateTime }}</span>
+        <span>人工智能目前处于维护中</span>
+      </div>
       <van-cell
-        :title="item.msg"
-        v-for="(item, index) in messages"
+        center
+        v-for="(item, index) in messageList"
         :key="index"
-      />
+        :border="false"
+      >
+        <div slot="title" class="msgbox">
+          {{ item }}
+        </div>
+        <van-image class="user-photo" :src="user.photo" fit="cover" round />
+      </van-cell>
     </van-cell-group>
-    <!-- /消息列表 -->
 
-    <!-- 发送消息 -->
-    <van-cell-group class="send-message-wrap">
-      <van-field v-model="message" placeholder="请输入消息" :border="false" />
-      <van-button
-        class="send-message-btn"
-        type="primary"
-        size="small"
-        @click="onSend"
+    <!-- 输入框 -->
+    <van-cell-group center class="send-message">
+      <van-field
+        :border="false"
+        type="text"
+        placeholder="请输入内容"
+        v-model="message"
+      />
+      <van-button @click="sendMsg" size="small" class="send-btn" type="primary"
         >发送</van-button
       >
     </van-cell-group>
-    <!-- /发送消息 -->
   </div>
 </template>
 
 <script>
-import io from 'socket.io-client';
-import { getItem, setItem } from 'utils/store';
-
+// import io from 'socket.io-client';
+// const socket = io('http://api-toutiao-web.itheima.net')
+//接口未设置跨域 估计限定了ip
+import { getUserProfile } from '@/network/user';
 export default {
-  name: 'UserChat',
+  name: 'userchat',
   data() {
     return {
       message: '',
-      // WebSocket通信对象
-      socket: null,
-      // 消息列表
-      messages: getItem('chat-messages') || null,
+      messageList: [],
+      user: {},
     };
   },
-  watch: {
-    messages() {
-      // setItem('chat-messages', this.messages);
-      // this.$nextTick(() => {
-      //   this.scrollToBottom();
-      // });
-    },
-  },
-  created() {
-    // // 建立连接
-    // const socket = io('http://ttapi.research.itcast.cn');
-    // this.socket = socket;
-    // socket.on('connect', () => {
-    //   console.log('连接建立');
-    // });
-    // socket.on('disconnect', () => {
-    //   console.log('连接断开');
-    // });
-    // // 监听message事件，接受服务端消息
-    // socket.on('message', (data) => {
-    //   console.log(data);
-    //   this.messages.push(data);
-    // });
-  },
-  mounted() {
-    this.scrollToBottom();
+  async created() {
+    const { data } = await getUserProfile();
+    this.user = data.data;
   },
   methods: {
-    onSend() {
-      // const data = {
-      //   msg: this.message,
-      //   timestamp: Date.now(),
-      // };
-      // this.socket.emit('message', data);
-      // // 把用户发出去的消息存储到列表中
-      // this.messages.push(data);
-      // // 清空输入框
-      // this.message = '';
-    },
-    scrollToBottom() {
-      // const list = this.$refs['message-list'];
-      // list.scrollTop = list.scrollHeight;
+    sendMsg() {
+      this.messageList.push(this.message);
+      this.message = '';
     },
   },
 };
 </script>
 
 <style lang="less" scoped>
-.message-list {
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 46px;
-  bottom: 44px;
-  overflow-y: auto;
-}
-.send-message-wrap {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  padding: 0 14px;
-  align-items: center;
-  .send-message-btn {
-    white-space: nowrap;
-    width: 60px;
-    height: 30px;
+.userchat {
+  .send-message {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 0 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .send-btn {
+      padding: 0;
+      width: 70px;
+      height: 30px;
+    }
+  }
+
+  .message-list {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 46px;
+    bottom: 44px;
+    overflow-y: auto;
+    .tip {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+      background-color: rgb(206, 206, 206);
+      width: 200px;
+      font-size: 6px;
+      border-radius: 30px;
+      color: rgb(109, 109, 109);
+      margin: 5px auto;
+      padding: 2px;
+    }
+    /deep/ .van-cell {
+      justify-content: flex-end;
+      .van-cell__title {
+        flex: unset;
+      }
+      .van-cell__value {
+        flex: unset;
+        flex-shrink: 0;
+        flex-basis: 45px;
+      }
+    }
+    .user-photo {
+      width: 35px;
+      height: 35px;
+      margin-left: 10px;
+    }
+    .msgbox {
+      padding: 4px 6px;
+      color: rgb(49, 49, 49);
+      word-wrap: break-word;
+      word-break: break-all;
+      overflow: hidden;
+      text-align: left;
+      background-color: rgb(14, 238, 51);
+      border-radius: 20px;
+      color: #222222;
+      border: 2px white solid;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    }
   }
 }
 </style>

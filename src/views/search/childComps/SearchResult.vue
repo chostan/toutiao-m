@@ -6,10 +6,15 @@
       finished-text="没有更多了"
       @load="onLoad"
     >
-      <van-cell
+      <!-- <van-cell
         v-for="(article, index) in list"
         :key="index"
         :title="article.title"
+      /> -->
+      <article-item
+        v-for="(article, index) in list"
+        :key="index"
+        :article="article"
       />
     </van-list>
   </div>
@@ -17,9 +22,13 @@
 
 <script>
 import { getSearchResults } from 'network/search';
+import ArticleItem from '@/components/articlItem/ArticleItem.vue';
 
 export default {
   name: 'SearchResult',
+  components: {
+    ArticleItem,
+  },
   props: {
     searchText: {
       type: String,

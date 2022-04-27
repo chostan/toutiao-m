@@ -1,4 +1,4 @@
-<template>
+  <template>
   <div class="user-profile">
     <!-- 导航栏 -->
     <van-nav-bar
@@ -44,17 +44,17 @@
       position="bottom"
       :style="{ height: '100%' }"
     >
-      <!-- 
+      <!--
         <update-name
           :name="user.name"
           @updateName="user.name = $event"
       ></update-name> -->
       <!-- 但项子组件传值，且改制要在子组件修改并且作用在父组件上时 -->
-      <!-- 
+      <!--
         v-model="user.name"
           默认传递一个名字叫value的数据
           :value="user.name"
-          默认监听input事件 @input="user.name = $event" 
+          默认监听input事件 @input="user.name = $event"
        -->
       <update-name
         v-if="isEditNameShow"
@@ -165,6 +165,11 @@ export default {
 
   .update-pthoto-popup {
     background-color: #000;
+  }
+  /deep/ .van-cell__value {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
   }
 }
 </style>

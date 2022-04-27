@@ -104,8 +104,10 @@ export default {
   },
   methods: {
     async loadCurrentUser() {
-      const { data } = await getCurrentUser();
-      this.currentUser = data.data;
+      if (this.user) {
+        const { data } = await getCurrentUser();
+        this.currentUser = data.data;
+      }
     },
     onLogout() {
       // 提示用户确认退出

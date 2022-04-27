@@ -19,15 +19,17 @@ function redirectLogin() {
 }
 
 const refreshTokenReq = axios.create({
-  // baseURL: 'http://ttapi.research.itcast.cn/'
-  baseURL: 'http://toutiao-app.itheima.net/'
+  // baseURL: 'http://toutiao-app.itheima.net/'
+  baseURL: 'http://api-toutiao-web.itheima.net',
+  timeout: 5000
 });
 
 export default function request(config) {
   // 1.创建axios的实例
   const instance = axios.create({
-    // baseURL: 'http://ttapi.research.itcast.cn/',
-    baseURL: 'http://toutiao-app.itheima.net/',
+    // baseURL: 'http://toutiao-app.itheima.net/',
+    baseURL: 'http://api-toutiao-web.itheima.net',
+    timeout: 5000,
     // transformResponse 允许自定义原始的响应数据（字符串）
     transformResponse: [
       function(data) {
@@ -48,9 +50,6 @@ export default function request(config) {
   // 2.1.请求拦截的作用
   instance.interceptors.request.use(
     config => {
-      // if (config.url.startsWith('/app')) {
-      //   config.url = config.url.slice(4);
-      // }
       const { user } = store.state;
 
       // 如果用户已登录，统一给接口设置token信息
@@ -73,7 +72,7 @@ export default function request(config) {
       // 请求失败进入这里
       // 超过2xx的状态码都会进入这里
 
-      const status = err.response.status;
+      const status = err.response ? err.response.status: 500;
 
       if (status === 400) {
         // 客户端请求参数错误
@@ -89,13 +88,12 @@ export default function request(config) {
         // 使用refresh_token请求获取新的token
         try {
           const { data } = await refreshTokenReq({
-            url: '/v1_0/authorizations',
+            url: '/app/v1_0/authorizations',
             method: 'put',
             headers: {
               Authorization: `Bearer ${user.refresh_token}`
             }
           });
-          console.log(data);
 
           // 拿到新的token之后把它更新到容器中
           user.token = data.data.token;
@@ -103,6 +101,7 @@ export default function request(config) {
           // 把失败的请求重新发出去
           return request(err.config);
         } catch (err) {
+          store.commit('setUser', null);
           redirectLogin();
         }
       } else if (status === 403) {

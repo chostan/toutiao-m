@@ -67,6 +67,7 @@
     <!-- 修改性别 -->
     <van-popup v-model="isEditGenderShow" position="bottom">
       <update-gender
+        v-if="isEditGenderShow"
         v-model="user.gender"
         @close="isEditGenderShow = false"
       ></update-gender>

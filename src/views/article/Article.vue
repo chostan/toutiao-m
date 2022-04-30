@@ -41,6 +41,9 @@
         ref="articleRef"
       ></div>
 
+      <!-- 分割线 -->
+      <van-divider ref="articleEndRef">End</van-divider>
+
       <!-- 文章评论列表 -->
       <comment-list
         :source="articleId"
@@ -62,7 +65,12 @@
       >
         写评论
       </van-button>
-      <van-icon color="#777" name="comment-o" :badge="totalCommentCount" />
+      <van-icon
+        color="#777"
+        name="comment-o"
+        :badge="totalCommentCount"
+        @click="toCommentClick"
+      />
       <van-icon
         :color="article.is_collected ? 'orange' : '#777'"
         :name="article.is_collected ? 'star' : 'star-o'"
@@ -177,6 +185,9 @@ export default {
       // 循环img列表，给img注册点击事件
       imgs.forEach((img, index) => {
         imgPaths.push(img.src);
+        img.onerror = function () {
+          img.src = require('@/assets/img/404.jpg');
+        };
         // 在事件处理函数中调用ImgPreview()预览
         img.onclick = function () {
           ImagePreview({
@@ -305,6 +316,14 @@ export default {
       this.replyComment = comment;
       // 展示回复内容
       this.isReplyShow = true;
+    },
+    // 滚动到全部评论位置
+    toCommentClick() {
+      this.$nextTick(() => {
+        this.$refs.articleEndRef.scrollIntoView({
+          behavior: 'smooth', // 设置出现的滑动效果->平滑的动画
+        });
+      });
     },
   },
 };

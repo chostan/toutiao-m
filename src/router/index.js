@@ -26,7 +26,7 @@ const routes = [
       {
         path: '/qa',
         name: 'qa',
-        component: import('views/qa/QA'),
+        component: () => import('views/qa/QA'),
         meta: { requiresAuth: false }
       },
       {

@@ -11,7 +11,8 @@ import request from './request';
 export function login(data) {
   return request({
     method: 'post',
-    url: '/app/v1_0/authorizations',
+    // url: '/app/v1_0/authorizations',
+    url: '/v1_0/authorizations',
     data
   });
 }
@@ -21,7 +22,8 @@ export function login(data) {
  */
 export function sendSms(mobile) {
   return request({
-    url: `/app/v1_0/sms/codes/${mobile}`
+    // url: `/app/v1_0/sms/codes/${mobile}`
+    url: `/v1_0/sms/codes/${mobile}`
   });
 }
 
@@ -30,7 +32,8 @@ export function sendSms(mobile) {
  */
 export function getCurrentUser() {
   return request({
-    url: '/app/v1_0/user'
+    // url: '/app/v1_0/user'
+    url: '/v1_0/user'
   });
 }
 
@@ -39,7 +42,8 @@ export function getCurrentUser() {
  */
 export function getUserChannels() {
   return request({
-    url: '/app/v1_0/user/channels'
+    // url: '/app/v1_0/user/channels'
+    url: '/v1_0/user/channels'
   });
 }
 
@@ -48,7 +52,8 @@ export function getUserChannels() {
  */
 export function addFollow(userId) {
   return request({
-    url: '/app/v1_0/user/followings',
+    // url: '/app/v1_0/user/followings',
+    url: '/v1_0/user/followings',
     method: 'post',
     data: {
       target: userId
@@ -61,7 +66,8 @@ export function addFollow(userId) {
  */
 export function deleteFollow(userId) {
   return request({
-    url: `/app/v1_0/user/followings/${userId}`,
+    // url: `/app/v1_0/user/followings/${userId}`,
+    url: `/v1_0/user/followings/${userId}`,
     method: 'delete'
   });
 }
@@ -71,7 +77,8 @@ export function deleteFollow(userId) {
  */
 export function getUserProfile() {
   return request({
-    url: '/app/v1_0/user/profile'
+    // url: '/app/v1_0/user/profile'
+    url: '/v1_0/user/profile'
   });
 }
 
@@ -80,7 +87,8 @@ export function getUserProfile() {
  */
 export function updateUserProfile(data) {
   return request({
-    url: '/app/v1_0/user/profile',
+    // url: '/app/v1_0/user/profile',
+    url: '/v1_0/user/profile',
     method: 'PATCH',
     data
   });
@@ -91,7 +99,8 @@ export function updateUserProfile(data) {
  */
 export function updateUserPhoto(data) {
   return request({
-    url: '/app/v1_0/user/photo',
+    // url: '/app/v1_0/user/photo',
+    url: '/v1_0/user/photo',
     method: 'PATCH',
     data
   });

@@ -7,7 +7,8 @@ import request from './request';
 /* 获取评论列表 */
 export function getComments(params) {
   return request({
-    url: '/app/v1_0/comments',
+    // url: '/app/v1_0/comments',
+    url: '/v1_0/comments',
     params
   });
 }
@@ -15,7 +16,8 @@ export function getComments(params) {
 /* 对评论或评论回复点赞 */
 export function addCommentLike(commentId) {
   return request({
-    url: '/app/v1_0/comment/likings',
+    // url: '/app/v1_0/comment/likings',
+    url: '/v1_0/comment/likings',
     method: 'post',
     data: {
       target: commentId
@@ -26,7 +28,8 @@ export function addCommentLike(commentId) {
 /* 取消对评论或评论回复点赞 */
 export function deleteCommentLike(commentId) {
   return request({
-    url: `/app/v1_0/comment/likings/${commentId}`,
+    // url: `/app/v1_0/comment/likings/${commentId}`,
+    url: `/v1_0/comment/likings/${commentId}`,
     method: 'delete'
   });
 }
@@ -34,7 +37,8 @@ export function deleteCommentLike(commentId) {
 /* 添加评论或评论回复 */
 export function addComment(data) {
   return request({
-    url: '/app/v1_0/comments',
+    // url: '/app/v1_0/comments',
+    url: '/v1_0/comments',
     method: 'post',
     data
   });

@@ -40,6 +40,7 @@
         <template #button>
           <van-count-down
             v-if="isCountDownShow"
+            class="cound-down"
             :time="1000 * 60"
             format="ss s"
             @finish="isCountDownShow = false"
@@ -78,7 +79,7 @@ export default {
   data() {
     return {
       user: {
-        mobile: '13911111111',
+        mobile: '13888888888',
         code: '246810',
       },
       formRules: {
@@ -140,7 +141,7 @@ export default {
         // 验证通过，请求发送验证码
         this.isSendSmsLoading = true; // 展示按钮的loading状态，防止网络慢用户多次触发发送行为
         const res = await sendSms(this.user.mobile);
-        // console.log(res);
+        console.log(res);
 
         // 短信发出去了，隐藏发送按钮,显示倒计时
         this.isCountDownShow = true;
@@ -168,7 +169,7 @@ export default {
       // 无论发送验证码成功或者失败，最后都要关闭发送按钮的Loading状态
       this.isSendSmsLoading = false;
       // 发送失败，显示发送按钮，关闭倒计时
-      this.isCountDownShow = false;
+      // this.isCountDownShow = false;
     },
   },
 };

@@ -19,16 +19,14 @@ function redirectLogin() {
 }
 
 const refreshTokenReq = axios.create({
-  // baseURL: 'http://api-toutiao-web.itheima.net',
-  baseURL: 'http://geek.itheima.net',
+  baseURL: 'http://api-toutiao-web.itheima.net',
   timeout: 5000
 });
 
 export default function request(config) {
   // 1.创建axios的实例
   const instance = axios.create({
-    // baseURL: 'http://api-toutiao-web.itheima.net',
-    baseURL: 'http://geek.itheima.net',
+    baseURL: 'http://api-toutiao-web.itheima.net',
     timeout: 5000,
     // transformResponse 允许自定义原始的响应数据（字符串）
     transformResponse: [

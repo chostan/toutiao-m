@@ -13,6 +13,7 @@
 
 <script>
 import { getSearchSuggestions } from 'network/search';
+import { getSearchSuggestions2 } from '@/network/search2';
 import { debounce } from 'lodash';
 
 export default {
@@ -34,8 +35,8 @@ export default {
     // },
     searchText: {
       handler: debounce(async function () {
-        const { data } = await getSearchSuggestions(this.searchText);
-        // console.log(data);
+        const { data } = await getSearchSuggestions2(this.searchText);
+        console.log('联想建议', data);
         this.suggestions = data.data.options;
       }, 200),
       // async handler() {
@@ -49,10 +50,14 @@ export default {
   },
   methods: {
     highLight(str) {
-      return str.replace(
-        new RegExp(this.searchText, 'gi'),
-        `<span style="color: red">${this.searchText}</span>`
-      );
+      if (str) {
+        return str.replace(
+          new RegExp(this.searchText, 'gi'),
+          `<span style="color: red">${this.searchText}</span>`
+        );
+      } else {
+        return str;
+      }
     },
   },
 };

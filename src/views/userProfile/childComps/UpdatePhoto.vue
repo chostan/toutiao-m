@@ -66,9 +66,7 @@ export default {
       // 如果要求Content-Type是multipart/form-data，则一定要提交FormData数据对象,专门用于文件上传,不能提交{},没用
       // const fd = new FormData();
       // fd.append('photo', this.file);
-      const res = await updateUserPhoto({
-        photo: fd,
-      });
+      const res = await updateUserPhoto(fd);
       // console.log(res);
 
       // 更新父组件中的用户头像

@@ -72,7 +72,7 @@ export default function request(config) {
       // 请求失败进入这里
       // 超过2xx的状态码都会进入这里
 
-      const status = err.response ? err.response.status: 500;
+      const status = err.response ? err.response.status : 500;
 
       if (status === 400) {
         // 客户端请求参数错误

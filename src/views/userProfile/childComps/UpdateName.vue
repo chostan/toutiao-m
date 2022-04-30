@@ -72,5 +72,8 @@ export default {
 <style lang="less" scoped>
 .name-field-wrap {
   padding: 10px;
+  /deep/ .van-field__body {
+    flex: 1;
+  }
 }
 </style>

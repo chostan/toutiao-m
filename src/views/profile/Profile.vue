@@ -73,7 +73,7 @@
       />
     </van-grid>
 
-    <van-cell title="消息通知" is-link to="/" />
+    <!-- <van-cell title="消息通知" is-link to="/" /> -->
     <van-cell class="mb-4" title="小智同学" is-link to="/user/chat" />
     <van-cell
       v-if="user"
@@ -107,6 +107,7 @@ export default {
       if (this.user) {
         const { data } = await getCurrentUser();
         this.currentUser = data.data;
+        this.$store.commit('setUserPhoto', this.currentUser.photo);
       }
     },
     onLogout() {

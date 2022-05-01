@@ -109,7 +109,7 @@ router.beforeEach((to, from, next) => {
         router.replace({
           name: 'login',
           query: {
-            redirect: router.currentRoute.fullPath
+            redirect: to.path
           }
         });
       })

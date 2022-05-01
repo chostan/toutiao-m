@@ -1,6 +1,7 @@
 .DS_Store
 node_modules
 /dist
+额外
 
 
 # local env files

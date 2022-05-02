@@ -23,7 +23,18 @@
           v-for="(img, index) in article.cover.images"
           :key="index"
         >
-          <van-image class="cover-image" fit="cover" :src="img" />
+          <!-- <van-image class="cover-image" fit="cover" :src="img">
+            <template v-slot:error>图片走丢了</template>
+          </van-image> -->
+          <van-image class="cover-image" fit="cover" lazy-load :src="img">
+            <template v-slot:error>
+              <van-image
+                class="cover-image"
+                fit="cover"
+                src="@/assets/img/404.jpg"
+              />
+            </template>
+          </van-image>
         </div>
       </div>
       <div class="label-wrap">
@@ -33,12 +44,25 @@
       </div>
     </div>
     <!-- 默认插槽名字是default，可以省略 -->
-    <van-image
+    <!-- <van-image
       v-if="article.cover.type === 1"
       class="right-cover"
       fit="cover"
       :src="article.cover.images[0]"
-    />
+    >
+      <template v-slot:error>图片走丢了</template>
+    </van-image> -->
+    <van-image
+      v-if="article.cover.type === 1"
+      class="right-cover"
+      fit="cover"
+      lazy-load
+      :src="article.cover.images[0]"
+    >
+      <template v-slot:error>
+        <van-image class="cover-image" fit="cover" src="@/assets/img/404.jpg" />
+      </template>
+    </van-image>
   </van-cell>
 </template>
 

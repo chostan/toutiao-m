@@ -67,10 +67,11 @@ export default {
       // const fd = new FormData();
       // fd.append('photo', this.file);
       const res = await updateUserPhoto(fd);
-      // console.log(res);
+      console.log(res);
 
       // 更新父组件中的用户头像
-      this.$emit('update-photo', window.URL.createObjectURL(file));
+      // this.$emit('update-photo', window.URL.createObjectURL(file));
+      this.$emit('update-photo', res.data.data.photo);
 
       // 关闭弹出层
       this.$emit('close');

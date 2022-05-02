@@ -36,7 +36,7 @@ export default {
     searchText: {
       handler: debounce(async function () {
         const { data } = await getSearchSuggestions2(this.searchText);
-        console.log('联想建议', data);
+        // console.log('联想建议', data);
         this.suggestions = data.data.options;
       }, 200),
       // async handler() {

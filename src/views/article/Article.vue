@@ -8,104 +8,112 @@
       @click-left="$router.back()"
     />
 
-    <div class="article-wrap">
-      <h1 class="title">{{ article.title }}</h1>
-      <van-cell center class="user-info" :border="false">
-        <div slot="title" class="name">{{ article.aut_name }}</div>
-        <van-image
-          slot="icon"
-          class="avatar"
-          round
-          fit="cover"
-          :src="article.aut_photo"
-        />
-        <div slot="label" class="pubdate">
-          {{ article.pubdate | relativeTime }}
-        </div>
+    <!-- 加载中：loading -->
+    <van-loading color="#1989fa" v-if="Object.keys(article).length === 0">
+      文章加载ing...
+    </van-loading>
+    <!-- /加载中：loading -->
+
+    <template v-else>
+      <!-- 文章详情 -->
+      <div class="article-wrap">
+        <h1 class="title">{{ article.title }}</h1>
+        <van-cell center class="user-info" :border="false">
+          <div slot="title" class="name">{{ article.aut_name }}</div>
+          <van-image
+            slot="icon"
+            class="avatar"
+            round
+            fit="cover"
+            :src="article.aut_photo"
+          />
+          <div slot="label" class="pubdate">
+            {{ article.pubdate | relativeTime }}
+          </div>
+          <van-button
+            class="follow-btn"
+            :border="false"
+            :type="article.is_followed ? 'default' : 'info'"
+            :icon="article.is_followed ? '' : 'plus'"
+            round
+            size="mini"
+            @click="onFollow"
+            >{{ article.is_followed ? '已关注' : '关注' }}</van-button
+          >
+        </van-cell>
+
+        <div
+          class="markdown-body"
+          v-html="article.content"
+          ref="articleRef"
+        ></div>
+
+        <!-- 分割线 -->
+        <van-divider ref="articleEndRef">End</van-divider>
+
+        <!-- 文章评论列表 -->
+        <comment-list
+          :source="articleId"
+          :list="commentList"
+          @update-total-count="totalCommentCount = $event"
+          @reply-click="onReplyClick"
+        ></comment-list>
+        <!-- /文章评论列表 -->
+      </div>
+
+      <!-- 底部区域 -->
+      <div class="footer">
         <van-button
-          class="follow-btn"
-          :border="false"
-          :type="article.is_followed ? 'default' : 'info'"
-          :icon="article.is_followed ? '' : 'plus'"
+          class="write-btn"
+          type="default"
           round
-          size="mini"
-          :loading="isFollowLoading"
-          @click="onFollow"
-          >{{ article.is_followed ? '已关注' : '关注' }}</van-button
+          size="small"
+          @click="isPostShow = true"
         >
-      </van-cell>
+          写评论
+        </van-button>
+        <van-icon
+          color="#777"
+          name="comment-o"
+          :badge="totalCommentCount"
+          @click="toCommentClick"
+        />
+        <van-icon
+          :color="article.is_collected ? 'orange' : '#777'"
+          :name="article.is_collected ? 'star' : 'star-o'"
+          :loading="isCollectLoading"
+          @click="onCollect"
+        />
+        <van-icon
+          :color="article.attitude === 1 ? 'hotpink' : '#777'"
+          :name="article.attitude === 1 ? 'good-job' : 'good-job-o'"
+          @click="onLike"
+        />
+        <van-icon color="#777" name="share" />
+      </div>
+      <!-- /底部区域 -->
 
-      <div
-        class="markdown-body"
-        v-html="article.content"
-        ref="articleRef"
-      ></div>
+      <!-- 发布评论 -->
+      <van-popup v-model="isPostShow" position="bottom">
+        <post-comment
+          :target="articleId"
+          @post-success="onPostSuccess"
+        ></post-comment>
+      </van-popup>
+      <!-- /发布评论 -->
 
-      <!-- 分割线 -->
-      <van-divider ref="articleEndRef">End</van-divider>
-
-      <!-- 文章评论列表 -->
-      <comment-list
-        :source="articleId"
-        :list="commentList"
-        @update-total-count="totalCommentCount = $event"
-        @reply-click="onReplyClick"
-      ></comment-list>
-      <!-- /文章评论列表 -->
-    </div>
-
-    <!-- 底部区域 -->
-    <div class="footer">
-      <van-button
-        class="write-btn"
-        type="default"
-        round
-        size="small"
-        @click="isPostShow = true"
-      >
-        写评论
-      </van-button>
-      <van-icon
-        color="#777"
-        name="comment-o"
-        :badge="totalCommentCount"
-        @click="toCommentClick"
-      />
-      <van-icon
-        :color="article.is_collected ? 'orange' : '#777'"
-        :name="article.is_collected ? 'star' : 'star-o'"
-        :loading="isCollectLoading"
-        @click="onCollect"
-      />
-      <van-icon
-        :color="article.attitude === 1 ? 'hotpink' : '#777'"
-        :name="article.attitude === 1 ? 'good-job' : 'good-job-o'"
-        @click="onLike"
-      />
-      <van-icon color="#777" name="share" />
-    </div>
-    <!-- /底部区域 -->
-
-    <!-- 发布评论 -->
-    <van-popup v-model="isPostShow" position="bottom">
-      <post-comment
-        :target="articleId"
-        @post-success="onPostSuccess"
-      ></post-comment>
-    </van-popup>
-    <!-- /发布评论 -->
-
-    <!-- 评论回复 -->
-    <van-popup v-model="isReplyShow" position="bottom">
-      <!-- 这里使用v-if的目的是让组件随着弹出层的显示进行渲染和销毁,防止加载过的组件不重新渲染导致数据不会重新加载的问题 -->
-      <comment-reply
-        v-if="isReplyShow"
-        :comment="replyComment"
-        :article-id="articleId"
-        @close="isReplyShow = false"
-      ></comment-reply>
-    </van-popup>
-    <!-- /评论回复 -->
+      <!-- 评论回复 -->
+      <van-popup v-model="isReplyShow" position="bottom">
+        <!-- 这里使用v-if的目的是让组件随着弹出层的显示进行渲染和销毁,防止加载过的组件不重新渲染导致数据不会重新加载的问题 -->
+        <comment-reply
+          v-if="isReplyShow"
+          :comment="replyComment"
+          :article-id="articleId"
+          @close="isReplyShow = false"
+        ></comment-reply>
+      </van-popup>
+      <!-- /评论回复 -->
+    </template>
   </div>
 </template>
 
@@ -332,6 +340,10 @@ export default {
 <style lang="less" scoped>
 .article-container {
   background-color: #fff;
+  /deep/ .van-loading {
+    text-align: center;
+    background-color: #f5f7f9;
+  }
   .title {
     background-color: #fff;
     font-size: 20px;

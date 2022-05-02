@@ -15,7 +15,8 @@ export default new Vuex.Store({
     cachePages: ['TabBar'],
     userPhoto:
       getItem('user-photo') ||
-      'https://pic4.zhimg.com/v2-874b7cb7ded56394b549d34a68c76a00_r.jpg'
+      'https://pic4.zhimg.com/v2-874b7cb7ded56394b549d34a68c76a00_r.jpg',
+    userName: getItem('user-name') || '默认名字'
   },
   mutations: {
     setUser(state, data) {
@@ -45,6 +46,12 @@ export default new Vuex.Store({
     setUserPhoto(state, photo) {
       state.userPhoto = photo;
       setItem('user-photo', photo);
+    },
+
+    // 设置用户名字
+    setUserName(state, name) {
+      state.userName = name;
+      setItem('user-name', name);
     }
   },
   actions: {},

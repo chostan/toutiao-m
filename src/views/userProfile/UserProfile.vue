@@ -56,9 +56,15 @@
           :value="user.name"
           默认监听input事件 @input="user.name = $event"
        -->
-      <update-name
+      <!-- <update-name
         v-if="isEditNameShow"
         v-model="user.name"
+        @close="isEditNameShow = false"
+      ></update-name> -->
+      <update-name
+        v-if="isEditNameShow"
+        :value="user.name"
+        @input="updateUserName"
         @close="isEditNameShow = false"
       ></update-name>
     </van-popup>
@@ -95,7 +101,7 @@
         v-if="isEditPhotoShow"
         :file="previewImage"
         @close="isEditPhotoShow = false"
-        @update-photo="user.photo = $event"
+        @update-photo="updateUserPhoto"
       ></update-photo>
     </van-popup>
     <!-- /修改头像 -->
@@ -153,6 +159,14 @@ export default {
 
       // 为了解决相同文件不触发change事件，这里手动的清空file的value
       this.$refs.file.value = '';
+    },
+    updateUserName(name) {
+      this.user.name = name;
+      this.$store.commit('setUserName', name);
+    },
+    updateUserPhoto(photo) {
+      this.user.photo = photo;
+      this.$store.commit('setUserPhoto', photo);
     },
   },
 };

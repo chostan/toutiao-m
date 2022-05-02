@@ -7,9 +7,10 @@
           slot="icon"
           round
           fit="cover"
-          :src="currentUser.photo"
+          :src="$store.state.userPhoto"
         />
-        <div class="name" slot="title">{{ currentUser.name }}</div>
+        <!-- <div class="name" slot="title">{{ currentUser.name }}</div> -->
+        <div class="name" slot="title">{{ $store.state.userName }}</div>
         <van-button class="update-btn" size="small" round to="/user/profile"
           >编辑资料</van-button
         >
@@ -108,6 +109,7 @@ export default {
         const { data } = await getCurrentUser();
         this.currentUser = data.data;
         this.$store.commit('setUserPhoto', this.currentUser.photo);
+        this.$store.commit('setUserName', this.currentUser.name);
       }
     },
     onLogout() {

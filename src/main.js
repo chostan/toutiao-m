@@ -1,28 +1,36 @@
-import Vue from 'vue'
-import App from './App.vue'
-import router from './router'
-import store from './store'
+import '@/utils/console.js'; // 去掉打印语句
+import Vue from 'vue';
+import App from './App.vue';
+import router from './router';
+import store from './store';
 
 // 导入vant组件库
-import Vant from 'vant';
-// 导入vant组件库的样式
-import 'vant/lib/index.css';
+import '@/plugins/vant';
 
 // 自动设置REM基准值(html标签的字体大小)
-import 'amfe-flexible'
+import 'amfe-flexible';
+
+// 代码高亮的样式
+import 'highlight.js/styles/default.css';
 
 // 导入全局样式(最好放到最后，方便覆盖第三方样式)
-import 'assets/css/index.less'
+import 'assets/css/index.less';
 
-import './utils/dayjs'
+import '@/utils/dayjs';
 
-// 全局注册vant组件
-Vue.use(Vant);
+import * as directives from '@/utils/directive';
 
-Vue.config.productionTip = false
+Object.keys(directives).forEach(key => {
+  // 注册自定义指令
+  Vue.directive(key, directives[key]);
+});
+
+Vue.config.productionTip = false;
 
 new Vue({
   router,
   store,
   render: h => h(App)
-}).$mount('#app')
+}).$mount('#app');
+
+console.log('process.env', process.env);

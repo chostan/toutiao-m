@@ -51,7 +51,7 @@ export default {
         const res = await updateUserProfile({
           name: this.localName,
         });
-        // console.log(res);
+        console.log(res);
         // 更新成功，修改父组件的name，关闭弹出层
         // this.$emit('update-name', this.localName);
         this.$emit('input', this.localName);

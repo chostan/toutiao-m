@@ -7,11 +7,11 @@
     <!-- /头部信息 -->
 
     <!-- 当前评论项 -->
-    <comment-item :comment="comment"></comment-item>
+    <comment-item :comment="comment" :reply="false"></comment-item>
     <!-- /当前评论项 -->
 
     <!-- 所有评论回复 -->
-    <van-cell title="所有回复"></van-cell>
+    <van-cell title="所有回复" :border="false"></van-cell>
     <comment-list
       :source="comment.com_id"
       type="c"
@@ -84,6 +84,7 @@ export default {
       this.comment.reply_count++;
       // 关闭发布回复的弹出层
       this.isPostShow = false;
+      this.$emit('update-total-count')
     },
   },
 };

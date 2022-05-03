@@ -2,6 +2,11 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import { Dialog } from 'vant';
 import store from '@/store/index';
+// 导入 NProgress 进度条对应的JS和CSS
+// import NProgress from 'nprogress';
+// import 'nprogress/nprogress.css';
+
+// NProgress.configure({ showSpinner: false });
 
 Vue.use(VueRouter);
 
@@ -93,6 +98,9 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
+  // 显示加载进度条
+  // NProgress.start();
+
   // 判断页面是否需要登录才能访问
   if (to.meta.requiresAuth) {
     // 如果已登录，则直接通过
@@ -122,6 +130,12 @@ router.beforeEach((to, from, next) => {
     // 不需要登录状态的页面，直接过去
     next();
   }
+
+  // NProgress.done(); // 手动强制关闭一次  为了解决 手动切换地址时  进度条的不关闭的问题
+});
+
+router.afterEach(() => {
+  // NProgress.done();
 });
 
 export default router;

@@ -1,6 +1,6 @@
 <template>
   <div class="comment-list">
-    <van-cell>全部评论</van-cell>
+    <!-- <van-cell>全部评论</van-cell> -->
     <van-list
       v-model="loading"
       :finished="finished"
@@ -101,7 +101,7 @@ export default {
       });
       // console.log(data);
       // console.log('commentList', data);
-      this.$emit('update-total-count', data.data.total_count);
+      // this.$emit('update-total-count', data.data.total_count);
       // 2.把数据放到列表中
       const { results } = data.data;
       // this.list.push(...results);

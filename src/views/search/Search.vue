@@ -5,7 +5,7 @@
     <form action="/">
       <van-search
         v-foo
-        v-model="searchText"
+        v-model.trim="searchText"
         placeholder="请输入搜索关键词"
         show-action
         @search="onSearch(searchText)"

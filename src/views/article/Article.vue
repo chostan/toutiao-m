@@ -51,11 +51,13 @@
         <!-- 分割线 -->
         <van-divider ref="articleEndRef">End</van-divider>
 
+        <van-cell title="全部评论" :border="false" />
+
         <!-- 文章评论列表 -->
+        <!-- @update-total-count="totalCommentCount = $event" -->
         <comment-list
           :source="articleId"
           :list="commentList"
-          @update-total-count="totalCommentCount = $event"
           @reply-click="onReplyClick"
         ></comment-list>
         <!-- /文章评论列表 -->
@@ -89,7 +91,7 @@
           :name="article.attitude === 1 ? 'good-job' : 'good-job-o'"
           @click="onLike"
         />
-        <van-icon color="#777" name="share" />
+        <!-- <van-icon color="#777" name="share" /> -->
       </div>
       <!-- /底部区域 -->
 
@@ -103,12 +105,17 @@
       <!-- /发布评论 -->
 
       <!-- 评论回复 -->
-      <van-popup v-model="isReplyShow" position="bottom">
+      <van-popup
+        v-model="isReplyShow"
+        position="bottom"
+        :style="{ height: '90%' }"
+      >
         <!-- 这里使用v-if的目的是让组件随着弹出层的显示进行渲染和销毁,防止加载过的组件不重新渲染导致数据不会重新加载的问题 -->
         <comment-reply
           v-if="isReplyShow"
           :comment="replyComment"
           :article-id="articleId"
+          @update-total-count="updateTotalCount"
           @close="isReplyShow = false"
         ></comment-reply>
       </van-popup>
@@ -178,6 +185,7 @@ export default {
     async loadArticle() {
       const { data } = await getArticleById(this.articleId);
       this.article = data.data;
+      this.totalCommentCount = data.data.comm_count;
 
       // 得到所有的img标签
       this.$nextTick(() => {
@@ -318,6 +326,9 @@ export default {
       this.totalCommentCount++;
       // 关闭发布评论弹出层
       this.isPostShow = false;
+    },
+    updateTotalCount() {
+      this.totalCommentCount++;
     },
     onReplyClick(comment) {
       // console.log('onReplyClick', comment);

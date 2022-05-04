@@ -7,23 +7,23 @@
       @load="onLoad"
     >
       <van-cell class="follow-item" v-for="(item, index) in list" :key="index">
-        <van-image
-          class="avatar"
-          round
-          :src="item.photo"
-          fit="cover"
-          slot="icon"
-          @click="
+        <!-- @click="
             $router.push({
               name: 'user',
               params: {
                 userId: item.id,
               },
             })
-          "
+          " -->
+        <van-image
+          class="avatar"
+          round
+          :src="item.photo"
+          fit="cover"
+          slot="icon"
         />
         <div class="title" slot="title">
-          {{ item.name.trim() || '黑马头条号' }}
+          {{ item.name.trim() || '默认名称' }}
         </div>
         <div class="label" slot="label">粉丝数：{{ item.fans_count }}</div>
         <follow-user
@@ -92,6 +92,7 @@ export default {
         results.forEach((item) => {
           item.is_followed = true;
         });
+
         this.list.push(...results);
 
         this.loading = false;

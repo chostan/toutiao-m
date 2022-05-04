@@ -51,9 +51,10 @@ export default {
         // 更新视图: 关注状态
         this.$emit('input', !this.value);
       } catch (err) {
-        if (err.response && err.response.status === 400) {
-          this.$toast('你不能关注你自己');
-        }
+        this.$toast.fail('服务端错误,操作失败');
+        // if (err.response && err.response.status === 400) {
+        //   this.$toast('你不能关注你自己');
+        // }
       }
       this.loading = false;
     },

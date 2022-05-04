@@ -1,6 +1,6 @@
 <template>
   <div class="user-follow">
-    <van-nav-bar class="page-navbar" left-arrow @click-left="$router.back()">
+    <van-nav-bar class="app-nav-bar" left-arrow @click-left="$router.back()">
       <van-tabs
         v-model="active"
         slot="title"
@@ -53,19 +53,11 @@ export default {
 </script>
 
 <style scoped lang="less">
-.list-item {
-  align-items: center;
-  .avatar {
-    width: 50px;
-    height: 50px;
-    margin-right: 13px;
-  }
-  .title {
-    font-size: 14px;
-  }
-  .label {
-    font-size: 12px;
-    color: #999999;
+.user-follow {
+  .app-nav-bar {
+    /deep/ .van-nav-bar__title {
+      width: 220px;
+    }
   }
 }
 </style>

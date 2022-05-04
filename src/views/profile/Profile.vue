@@ -22,15 +22,16 @@
             <div class="text">头条</div>
           </div>
         </van-grid-item>
-        <!-- <van-grid-item class="data-info-item" :to="`/user/${user.id}/follow`"> -->
-        <van-grid-item class="data-info-item">
+        <van-grid-item class="data-info-item" :to="`/user/${user.id}/follow`">
           <div class="text-wrap" slot="text">
             <div class="count">{{ currentUser.follow_count }}</div>
             <div class="text">关注</div>
           </div>
         </van-grid-item>
-        <!-- <van-grid-item class="data-info-item" :to="`/user/${user.id}/follow?tab=followers`"> -->
-        <van-grid-item class="data-info-item">
+        <van-grid-item
+          class="data-info-item"
+          :to="`/user/${user.id}/follow?tab=followers`"
+        >
           <div class="text-wrap" slot="text">
             <div class="count">{{ currentUser.fans_count }}</div>
             <div class="text">粉丝</div>
@@ -121,6 +122,9 @@ export default {
   created() {
     this.loadCurrentUser();
   },
+  activated() {
+    this.loadCurrentUser();
+  },
   methods: {
     async loadCurrentUser() {
       if (this.user) {
@@ -175,7 +179,8 @@ export default {
         color: #fff;
       }
       .update-btn {
-        height: 16px;
+        height: 20px;
+        line-height: 20;
         font-size: 10px;
         color: #666;
       }

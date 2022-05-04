@@ -56,6 +56,7 @@
 <script>
 import { io } from 'socket.io-client';
 import { mapState } from 'vuex';
+import { setItem, getItem } from '@/utils/store';
 
 export default {
   name: 'Chat',
@@ -63,15 +64,7 @@ export default {
     return {
       word: '', // 输入框的内容
       // 所有的聊天消息
-      messageList: [
-        { name: 'xs', msg: 'hi，你好！我是小思' },
-        { name: 'me', msg: '你好, 我是张三' },
-        { name: 'xs', msg: 'hi，你好！我是小思' },
-        { name: 'me', msg: '你好, 我是张三' },
-        { name: 'xs', msg: 'hi，你好！我是小思' },
-        { name: 'me', msg: '你好, 我是张三' },
-        { name: 'xs', msg: 'hi，你好！我是小思' },
-        { name: 'me', msg: '你好, 我是张三' },
+      messageList: getItem('chat-messageList') || [
         { name: 'xs', msg: 'hi，你好！我是小思' },
         { name: 'me', msg: '你好, 我是张三' },
       ],
@@ -83,8 +76,9 @@ export default {
   },
   watch: {
     messageList: {
-      handler: function () {
-        console.log('-----');
+      handler: function (newValue) {
+        // 把消息存储到本地
+        setItem('chat-messageList', newValue);
         // 最后一条聊天消息滚动到底部
         this.$nextTick(() => {
           const chatItemRef =

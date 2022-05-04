@@ -11,9 +11,9 @@
         />
         <!-- <div class="name" slot="title">{{ currentUser.name }}</div> -->
         <div class="name" slot="title">{{ $store.state.userName }}</div>
-        <van-button class="update-btn" size="small" round to="/user/profile"
-          >编辑资料</van-button
-        >
+        <van-button class="update-btn" size="small" round to="/user/profile">
+          编辑资料
+        </van-button>
       </van-cell>
       <van-grid class="data-info" :border="false">
         <van-grid-item class="data-info-item">
@@ -22,12 +22,14 @@
             <div class="text">头条</div>
           </div>
         </van-grid-item>
+        <!-- <van-grid-item class="data-info-item" :to="`/user/${user.id}/follow`"> -->
         <van-grid-item class="data-info-item">
           <div class="text-wrap" slot="text">
             <div class="count">{{ currentUser.follow_count }}</div>
             <div class="text">关注</div>
           </div>
         </van-grid-item>
+        <!-- <van-grid-item class="data-info-item" :to="`/user/${user.id}/follow?tab=followers`"> -->
         <van-grid-item class="data-info-item">
           <div class="text-wrap" slot="text">
             <div class="count">{{ currentUser.fans_count }}</div>
@@ -59,23 +61,39 @@
       <div class="text">登录/注册</div>
     </div>
 
-    <van-grid class="nav-grid mb-4" :column-num="2">
+    <van-grid class="nav-grid mb-10" :column-num="2">
+      <!-- <van-grid-item
+        class="nav-grid-item"
+        icon-prefix="toutiao"
+        icon="shoucang"
+        text="收藏"
+        to="/my-article/collect"
+      /> -->
       <van-grid-item
         class="nav-grid-item"
         icon-prefix="toutiao"
         icon="shoucang"
         text="收藏"
+        to="/my-article/collect"
       />
+      <!-- <van-grid-item
+        class="nav-grid-item"
+        icon-prefix="toutiao"
+        icon="lishi"
+        text="历史"
+        to="/my-article/history"
+      /> -->
       <van-grid-item
         class="nav-grid-item"
         icon-prefix="toutiao"
         icon="lishi"
         text="历史"
+        to="/my-article/history"
       />
     </van-grid>
 
     <!-- <van-cell title="消息通知" is-link to="/" /> -->
-    <van-cell class="mb-4" title="小智同学" is-link to="/user/chat" />
+    <van-cell class="mb-10" title="小智同学" is-link to="/user/chat" />
     <van-cell
       v-if="user"
       class="logout-cell"
@@ -227,8 +245,8 @@ export default {
     text-align: center;
     color: #d86262;
   }
-  .mb-4 {
-    margin-bottom: 4px;
+  .mb-10 {
+    margin-bottom: 10px;
   }
 }
 </style>

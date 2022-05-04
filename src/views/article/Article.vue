@@ -195,23 +195,25 @@ export default {
     handelPreviewImage() {
       // 获取文章内容dom容器
       const articleContent = this.$refs.articleRef;
-      const imgs = articleContent.querySelectorAll('img');
-      const imgPaths = [];
+      if (articleContent) {
+        const imgs = articleContent.querySelectorAll('img');
+        const imgPaths = [];
 
-      // 循环img列表，给img注册点击事件
-      imgs.forEach((img, index) => {
-        imgPaths.push(img.src);
-        img.onerror = function () {
-          img.src = require('@/assets/img/404.jpg');
-        };
-        // 在事件处理函数中调用ImgPreview()预览
-        img.onclick = function () {
-          ImagePreview({
-            images: imgPaths, // 预览图片路径列表
-            startPosition: index, // 起始位置
-          });
-        };
-      });
+        // 循环img列表，给img注册点击事件
+        imgs.forEach((img, index) => {
+          imgPaths.push(img.src);
+          img.onerror = function () {
+            img.src = require('@/assets/img/404.jpg');
+          };
+          // 在事件处理函数中调用ImgPreview()预览
+          img.onclick = function () {
+            ImagePreview({
+              images: imgPaths, // 预览图片路径列表
+              startPosition: index, // 起始位置
+            });
+          };
+        });
+      }
     },
     async onFollow() {
       this.isFollowLoading = true;
@@ -350,10 +352,12 @@ export default {
 
 <style lang="less" scoped>
 .article-container {
+  width: 100%;
+  height: 100vh;
   background-color: #fff;
   /deep/ .van-loading {
     text-align: center;
-    background-color: #f5f7f9;
+    background-color: #fff;
   }
   .title {
     background-color: #fff;

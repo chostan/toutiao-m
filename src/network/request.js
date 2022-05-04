@@ -95,6 +95,7 @@ export default function request(config) {
               Authorization: `Bearer ${user.refresh_token}`
             }
           });
+          console.log('401的处理', data);
 
           // 拿到新的token之后把它更新到容器中
           user.token = data.data.token;

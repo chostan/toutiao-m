@@ -105,3 +105,64 @@ export function updateUserPhoto(data) {
     data
   });
 }
+
+/**
+ * 获取用户的关注列表
+ */
+export function getFollowingsByUser(userId, params) {
+  return request({
+    method: 'GET',
+    url: '/v1_0/user/followings',
+    params,
+    data: {
+      target: userId.toString()
+    }
+  });
+}
+
+/**
+ * 获取用户的粉丝列表
+ */
+export function getFollowersByUser(userId, params) {
+  return request({
+    method: 'GET',
+    url: '/v1_0/user/followers',
+    params,
+    data: {
+      target: userId.toString()
+    }
+  });
+}
+
+/**
+ * 关注用户
+ */
+export function followUser(userId) {
+  return request({
+    method: 'POST',
+    url: '/v1_0/user/followings',
+    data: {
+      target: userId
+    }
+  });
+}
+
+/**
+ * 取消关注用户
+ */
+export function unFollowUser(userId) {
+  return request({
+    method: 'DELETE',
+    url: `/v1_0/user/followings/${userId}`
+  });
+}
+
+/**
+ * 获取指定用户信息
+ */
+export function getUserById(userId) {
+  return request({
+    method: 'GET',
+    url: `/v1_0/users/${userId}`
+  });
+}

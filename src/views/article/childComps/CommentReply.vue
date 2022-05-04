@@ -16,6 +16,8 @@
       :source="comment.com_id"
       type="c"
       :list="commentList"
+      :showReply="true"
+      @reply-click="onClickReply"
     ></comment-list>
     <!-- /所有评论回复 -->
 
@@ -26,7 +28,7 @@
         type="default"
         round
         size="small"
-        @click="isPostShow = true"
+        @click="onWriteClick"
       >
         写评论
       </van-button>
@@ -36,8 +38,9 @@
     <!-- 发布回复 -->
     <van-popup v-model="isPostShow" position="bottom">
       <post-comment
-        :target="comment.com_id"
+        :target="target"
         :articleId="articleId"
+        :reply-to="replyTo"
         @post-success="onPostSuccess"
       ></post-comment>
     </van-popup>
@@ -73,6 +76,9 @@ export default {
       isPostShow: false,
       // 评论的回复列表
       commentList: [],
+      isPostShow: false,
+      target: this.comment.com_id,
+      replyTo: null,
     };
   },
   methods: {
@@ -84,7 +90,18 @@ export default {
       this.comment.reply_count++;
       // 关闭发布回复的弹出层
       this.isPostShow = false;
-      this.$emit('update-total-count')
+      // 更新评论回复总数
+      this.$emit('update-total-count');
+    },
+    onWriteClick() {
+      this.target = this.comment.com_id;
+      this.replyTo = null;
+      this.isPostShow = true;
+    },
+    onClickReply(comment) {
+      this.target = comment.com_id;
+      this.replyTo = comment;
+      this.isPostShow = true;
     },
   },
 };

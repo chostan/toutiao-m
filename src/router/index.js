@@ -72,25 +72,29 @@ const routes = [
     name: 'user-chat',
     component: () => import('@/views/userChat/UserChat'),
     meta: { requiresAuth: true }
+  },
+  {
+    // 用户关注/粉丝
+    path: '/user/:userId/follow',
+    component: () => import('@/views/userFollow'),
+    props: true,
+    meta: { requiresAuth: true }
+  },
+  {
+    // 用户主页
+    name: 'user',
+    path: '/user/:userId',
+    component: () => import('@/views/user'),
+    props: true
+  },
+  {
+    // 我的作品、收藏、历史
+    name: 'my-article',
+    path: '/my-article/:type?',
+    component: () => import('@/views/myArticle'),
+    props: true,
+    meta: { requiresAuth: true }
   }
-  // {
-  //   path: '/usercollect',
-  //   name: 'usercollect',
-  //   meta: {
-  //     requireAuth: true
-  //   },
-  //   component: () => import('@/views/usercollect'),
-  //   props: true
-  // },
-  // {
-  //   path: '/userhistory',
-  //   name: 'userhistory',
-  //   meta: {
-  //     requireAuth: true
-  //   },
-  //   component: () => import('@/views/usercollect'),
-  //   props: true
-  // }
 ];
 
 const router = new VueRouter({

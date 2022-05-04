@@ -6,7 +6,7 @@ import 'vant/lib/index.css';
 import { Lazyload } from 'vant';
 
 Vue.use(Lazyload, {
-  preLoad: 0.8 // 屏幕高度百分比
+  preLoad: 1.3 // 屏幕高度百分比
 });
 
 // 全局注册vant组件

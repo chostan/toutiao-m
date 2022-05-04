@@ -62,20 +62,25 @@ export default {
   },
   methods: {
     async onCommentLike() {
-      const commentId = this.comment.com_id.toString();
-      if (this.comment.is_liking) {
-        // 已点赞，取消点赞
-        const res = await deleteCommentLike(commentId);
-        this.comment.like_count--;
-        // console.log(res);
-      } else {
-        // 没有点赞，添加点赞
-        const res = await addCommentLike(commentId);
-        this.comment.like_count++;
-        // console.log(res);
+      try {
+        const commentId = this.comment.com_id.toString();
+        if (this.comment.is_liking) {
+          // 已点赞，取消点赞
+          const res = await deleteCommentLike(commentId);
+          this.comment.like_count--;
+          // console.log(res);
+        } else {
+          // 没有点赞，添加点赞
+          const res = await addCommentLike(commentId);
+          this.comment.like_count++;
+          // console.log(res);
+        }
+        // 更新视图
+        this.comment.is_liking = !this.comment.is_liking;
+      } catch (error) {
+        console.log(error);
+        this.$toast.fail('操作失败');
       }
-      // 更新视图
-      this.comment.is_liking = !this.comment.is_liking;
     },
   },
 };
@@ -100,6 +105,8 @@ export default {
     font-size: 16px;
     color: #222;
     margin: 4px 0;
+    word-wrap: break-word;
+    word-break: break-all;
   }
   .title-bottom {
     display: flex;

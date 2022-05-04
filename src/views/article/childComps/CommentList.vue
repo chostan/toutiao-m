@@ -8,7 +8,7 @@
       @load="onLoad"
     >
       <comment-item
-        v-for="(comment, index) in commentList"
+        v-for="(comment, index) in list"
         :key="index"
         :comment="comment"
         @reply-click="$emit('reply-click', $event)"
@@ -23,10 +23,9 @@
 </template>
 
 <script>
-// articleId为134633有评论
 import { getComments } from 'network/comment';
 import CommentItem from './CommentItem';
-import { getCurrentUser } from '@/network/user';
+// import { getCurrentUser } from '@/network/user';
 
 export default {
   name: 'CommentList',
@@ -50,6 +49,10 @@ export default {
         return [];
       },
     },
+    showReply: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -64,26 +67,26 @@ export default {
     };
   },
   watch: {
-    list: {
-      isDeep: true,
-      async handler() {
-        const { idObj, content } = this.list[0];
-        const { data } = await getCurrentUser();
-        let newComment = {
-          com_id: idObj.com_id,
-          aut_id: data.data.id,
-          aut_name: data.data.name,
-          aut_photo: data.data.photo,
-          like_count: 0,
-          reply_count: 0,
-          pubdate: Date.now(),
-          content: content,
-          is_top: 0,
-          is_liking: false,
-        };
-        this.commentList.unshift(newComment);
-      },
-    },
+    // list: {
+    //   isDeep: true,
+    //   async handler() {
+    //     const { idObj, content } = this.list[0];
+    //     const { data } = await getCurrentUser();
+    //     let newComment = {
+    //       com_id: idObj.com_id,
+    //       aut_id: data.data.id,
+    //       aut_name: data.data.name,
+    //       aut_photo: data.data.photo,
+    //       like_count: 0,
+    //       reply_count: 0,
+    //       pubdate: Date.now(),
+    //       content: content,
+    //       is_top: 0,
+    //       is_liking: false,
+    //     };
+    //     this.commentList.unshift(newComment);
+    //   },
+    // },
   },
   created() {},
   methods: {
@@ -99,13 +102,16 @@ export default {
         // 获取的评论数据个数，不传表示采用后端服务设定的默认每页数据量
         limit: this.limit,
       });
-      // console.log(data);
+      // console.log('评论列表', data);
+      if (this.showReply && this.showReply == true) {
+        // this.getComentReply();
+      }
       // console.log('commentList', data);
       // this.$emit('update-total-count', data.data.total_count);
       // 2.把数据放到列表中
       const { results } = data.data;
-      // this.list.push(...results);
-      this.commentList.push(...results);
+      this.list.push(...results);
+      // this.commentList.push(...results);
 
       // 3.将本次的loading关闭
       this.loading = false;

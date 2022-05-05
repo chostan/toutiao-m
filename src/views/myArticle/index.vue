@@ -1,28 +1,27 @@
 <template>
-  <div class="myarticle-container page-container">
+  <div class="myarticle-container">
     <!-- 导航栏 -->
-    <van-nav-bar
-      class="page-navbar"
-      left-arrow
-      fixed
-      @click-left="$router.back()"
-    ></van-nav-bar>
+    <van-nav-bar class="app-nav-bar" left-arrow @click-left="$router.back()">
+      <!-- 文章标签列表 -->
+      <van-tabs
+        slot="title"
+        v-model="active"
+        background="#3296fa"
+        color="#fff"
+        title-inactive-color="#fff"
+        title-active-color="#fff"
+      >
+        <van-tab :title="tab.title" v-for="tab in tabs" :key="tab.title">
+          <loading-list :fn="tab.fn" class="collect-list">
+            <template v-slot="{ item }">
+              <article-item :article="item" />
+            </template>
+          </loading-list>
+        </van-tab>
+      </van-tabs>
+      <!-- /文章标签列表 -->
+    </van-nav-bar>
     <!-- /导航栏 -->
-
-    <!-- 文章标签列表 -->
-    <van-tabs
-      class="fixed-tabs"
-      v-model="active"
-      title-active-color="#3c9bfa"
-      color="#399afa"
-    >
-      <van-tab :title="tab.title" v-for="tab in tabs" :key="tab.title">
-        <loading-list :fn="tab.fn" v-slot="{ item }">
-          <article-item :article="item" />
-        </loading-list>
-      </van-tab>
-    </van-tabs>
-    <!-- /文章标签列表 -->
   </div>
 </template>
 
@@ -73,4 +72,20 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style lang="less" scoped>
+.myarticle-container {
+  .app-nav-bar {
+    /deep/ .van-nav-bar__title {
+      width: 220px;
+    }
+  }
+  .collect-list {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 46px;
+    bottom: 0;
+    overflow-y: auto;
+  }
+}
+</style>

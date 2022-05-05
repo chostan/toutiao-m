@@ -1,35 +1,33 @@
 <template>
   <div
     class="article-item"
-    @click="$router.push({
-      name: 'article',
-      params: {
-        articleId: article.art_id.toString()
-      }
-    })"
+    @click="
+      $router.push({
+        name: 'article',
+        params: {
+          articleId: article.art_id.toString(),
+        },
+      })
+    "
   >
     <div class="author">
-      <van-image
+      <!-- <van-image
         class="avatar"
         round
         fit="cover"
         src="https://img.yzcdn.cn/vant/cat.jpeg"
-      />
-      <div>
+      /> -->
+      <div class="name-wrap">
         <div class="name">{{ article.aut_name }}</div>
         <div class="date">{{ article.pubdate | relativeTime }}</div>
       </div>
     </div>
     <div class="title-cover" v-if="article.cover.type">
       <div class="title">{{ article.title }}</div>
-      <van-image
-        class="cover"
-        fit="cover"
-        :src="article.cover.images[0]"
-      />
+      <van-image class="cover" fit="cover" :src="article.cover.images[0]" />
     </div>
     <div class="title" v-else>{{ article.title }}</div>
-    <div class="action">
+    <!-- <div class="action">
       <div class="action-item">
         <van-icon class="comment-icon" name="comment-o" />
         <span>{{ article.comm_count }}</span>
@@ -40,9 +38,9 @@
       </div>
       <div class="action-item">
         <van-icon name="star-o" />
-        <span>{{ article.collect_count }}</span>
+        <span>{{ article.collect_count || 1 }}</span>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -53,18 +51,17 @@ export default {
   props: {
     article: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
-  data () {
-    return {}
+  data() {
+    return {};
   },
   computed: {},
-  watch: {
-  },
-  created () {},
-  methods: {}
-}
+  watch: {},
+  created() {},
+  methods: {},
+};
 </script>
 
 <style scoped lang="less">
@@ -80,33 +77,47 @@ export default {
       height: 36px;
       margin-right: 9px;
     }
-    .name {
-      color: #222;
-      font-size: 14px;
-    }
-    .date {
-      color: #999;
-      font-size: 11.5px;
+    .name-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      .name {
+        color: #222;
+        font-size: 14px;
+      }
+      .date {
+        padding-left: 4px;
+        color: #999;
+        font-size: 11.5px;
+      }
     }
   }
   .title-cover {
     padding: 14px 0;
-    color: #3A3A3A;
+    color: #3a3a3a;
     font-size: 15px;
     display: flex;
     justify-content: space-between;
-    >.title {
+    > .title {
       width: 65%;
+      text-align: left;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     .cover {
       width: 116px;
       height: 73px;
     }
   }
-  >.title {
+  > .title {
     padding: 14px 0;
-    color: #3A3A3A;
+    color: #3a3a3a;
     font-size: 15px;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .action {
     height: 46px;
@@ -120,9 +131,9 @@ export default {
         font-size: 18px;
         margin-right: 5px;
       }
-      .comment-icon {
-        // top: 0px;
-      }
+      // .comment-icon {
+      //   // top: 0px;
+      // }
       font-size: 14px;
     }
   }

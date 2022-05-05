@@ -63,13 +63,6 @@
     </div>
 
     <van-grid class="nav-grid mb-10" :column-num="2">
-      <!-- <van-grid-item
-        class="nav-grid-item"
-        icon-prefix="toutiao"
-        icon="shoucang"
-        text="收藏"
-        to="/my-article/collect"
-      /> -->
       <van-grid-item
         class="nav-grid-item"
         icon-prefix="toutiao"
@@ -77,13 +70,6 @@
         text="收藏"
         to="/my-article/collect"
       />
-      <!-- <van-grid-item
-        class="nav-grid-item"
-        icon-prefix="toutiao"
-        icon="lishi"
-        text="历史"
-        to="/my-article/history"
-      /> -->
       <van-grid-item
         class="nav-grid-item"
         icon-prefix="toutiao"

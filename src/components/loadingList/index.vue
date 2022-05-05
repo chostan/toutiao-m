@@ -6,7 +6,7 @@
     @load="onLoad"
   >
     <div v-for="(item, index) in value" :key="index">
-      <slot v-bind:item="item">{{ item }}</slot>
+      <slot :item="item"> </slot>
     </div>
   </van-list>
 </template>
@@ -49,6 +49,7 @@ export default {
 
       // 2. 将数据添加到列表中
       const { results, total_count: totalCount } = data.data;
+
       this.value.push(...results);
 
       // 更新总数量
@@ -70,6 +71,6 @@ export default {
 
 <style scoped>
 body {
-  background: #fff;
+  background: pink;
 }
 </style>
